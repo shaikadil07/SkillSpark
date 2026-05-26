@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SkillSpark – Ignite Your Daily Learning Streak</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0f19;
+    --card: #111827;
+    --accent: #6366f1;
+    --accent-light: #a5b4fc;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --radius: 14px;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top left, #1e293b, #0b0f19);
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 30px;
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Header */
+  #projectTitle {
+    font-size: 36px;
+    text-align: center;
+    background: linear-gradient(90deg, #6366f1, #a5b4fc, #f472b6, #facc15);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientShift 5s ease infinite;
+    margin-bottom: 15px;
+    line-height: 1.2;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  p {
+    color: var(--muted);
+    margin: 4px 0 25px;
+    text-align: center;
+    max-width: 650px;
+    line-height: 1.6;
+  }
+
+  .streak {
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(90deg,#facc15,#f472b6,#6366f1);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: streakGradient 5s ease infinite;
+    margin-bottom: 25px;
+    text-align: center;
+  }
+
+  @keyframes streakGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .card {
+    background: var(--card);
+    padding: 24px;
+    border-radius: var(--radius);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+    width: 100%;
+    max-width: 700px;
+    margin-bottom: 25px;
+    position: relative;
+  }
+
+  .card h2 {
+    font-size: 22px;
+    color: var(--accent-light);
+    margin-bottom: 10px;
+  }
+
+  .topic {
+    background: rgba(255,255,255,0.03);
+    border-radius: var(--radius);
+    padding: 15px;
+    margin-bottom: 12px;
+  }
+
+  .topic pre {
+    background: rgba(0,0,0,0.3);
+    color: #a5b4fc;
+    padding: 12px;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    font-size: 13px;
+  }
+
+  .btns {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+  button {
+    background: var(--accent);
+    color: white;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    cursor: pointer;
+    transition: 0.25s;
+  }
+
+  button:hover {
+    background: var(--accent-light);
+    color: #111;
+  }
+
+  .motivation {
+    font-size: 16px;
+    margin-top: 8px;
+    color: #4ade80;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    text-align: center;
+  }
+
+  .motivation.show {
+    opacity: 1;
+  }
+
+  .note {
+    background: rgba(255,255,255,0.04);
+    border-left: 4px solid var(--accent);
+    padding: 14px 18px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--muted);
+    margin-top: 20px;
+    max-width: 700px;
+  }
+
+  .note strong {
+    color: var(--accent-light);
+  }
+
+  footer {
+    margin-top: 30px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  /* login screen */
+  #loginScreen{
+    position: fixed;
+    top:0; left:0; width:100%; height:100%;
+    background: rgba(2,6,23,0.96);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+  }
+  #loginCard{
+    background: var(--card);
+    padding: 25px;
+    border-radius: var(--radius);
+    width: 100%;
+    max-width: 400px;
+    text-align:center;
+    box-shadow:0 8px 30px rgba(0,0,0,0.6);
+  }
+  #loginCard input{
+    width:100%; margin:8px 0; padding:10px 12px; border-radius:var(--radius); border:none; background:#0f1724; color:var(--text);
+  }
+  #loginCard small{
+    color: var(--muted);
+    display:block;
+    margin-top:6px;
+  }
+
+  #userBar {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    max-width:700px;
+    margin-bottom:15px;
+    padding:0 10px;
+  }
+
+  #userBar span{
+    font-weight:700;
+    color: var(--accent-light);
+  }
+
+  /* streak earned card */
+  #streakCard {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: linear-gradient(135deg,#facc15,#f472b6,#6366f1);
+    color: #111;
+    padding: 30px 50px;
+    border-radius: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    text-align: center;
+    z-index: 2000;
+    box-shadow: 0 0 30px rgba(255,255,255,0.7);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+    opacity: 0;
+  }
+
+  #streakCard.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+
+  canvas#confetti {
+    position: fixed;
+    top:0; left:0;
+    pointer-events:none;
+    width:100%;
+    height:100%;
+    z-index: 3000;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div id="loginCard">
+    <h2>Login / Sign Up</h2>
+    <input type="email" id="emailInput" placeholder="Enter your email" />
+    <input type="password" id="passwordInput" placeholder="Enter password" />
+    <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+      <button onclick="signUp()">Sign Up</button>
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
+</div>
+
+<!-- USER BAR -->
+<div id="userBar" style="display:none;">
+  <span id="hiName"></span>
+  <button onclick="logout()">Logout</button>
+</div>
+
+<h1 id="projectTitle">
+  SkillSpark – Ignite Your Daily Learning Streak
+</h1>
+
+<p>
+  Complete 5 topics in Python and 5 topics in Java daily. Only **1 streak per day**.  
+  Stay consistent, and your streak will increase automatically every day! 💪
+</p>
+
+<div class="streak" id="sharedStreak">🔥 0-day streak</div>
+
+<div class="card">
+  <h2>🐍 Python Daily Learning</h2>
+  <div class="topic" id="pythonTopic"></div>
+  <div class="btns">
+    <button onclick="nextPythonTopic()">Next Topic 📘</button>
+  </div>
+</div>
+
+<div class="card">
+  <h2>☕ Java Daily Learning</h2>
+  <div class="topic" id="javaTopic"></div>
+  <div class="btns">
+    <button onclick="nextJavaTopic()">Next Topic 📗</button>
+  </div>
+</div>
+
+<div class="motivation" id="motivation"></div>
+
+<div class="note">
+  <strong>Note:</strong> Complete all 5 topics in Python and Java daily to earn **1 daily streak**.  
+  Only 1 streak per day, regardless of topics completed. Stay consistent! 🚀
+</div>
+
+<div class="btns" style="margin-bottom:25px;">
+  <button onclick="resetProgress()">Reset Progress ⚠️</button>
+</div>
+
+<!-- Streak Earned Card -->
+<div id="streakCard">🎉 Excellent! You earned a streak! Keep learning to reach your goal! 🚀</div>
+
+<canvas id="confetti"></canvas>
+
+<footer>SkillSpark © 2025 | Learn. Grow. Stay Consistent.</footer>
+
+<script>
+  // --- LOGIN HANDLERS ---
+  function storageKey(email){ return 'user_'+email.toLowerCase(); }
+
+  let currentUser = null;
+  let userData = null;
+
+  function signUp(){
+    const email = document.getElementById('emailInput').value.trim();
+    const pass = document.getElementById('passwordInput').value;
+    if(!email || !pass){ alert('Enter email and password'); return; }
+    const key = storageKey(email);
+    if(localStorage.getItem(key)){ if(!confirm('User exists. Overwrite?')) return; }
+    const user = { email, password: pass, pythonIndex:0, javaIndex:0, sharedStreak:0, lastStreakDay:"", pythonToday:0, javaToday:0 };
+    localStorage.setItem(key, JSON.stringify(user));
+    loginUser(email, pass);
+  }
+
+  function login(){
+    const email = document.getElementById('emailInput').value.trim();
+    const pass = document.getElementById('passwordInput').value;
+    loginUser(email, pass);
+  }
+
+  function loginUser(email, pass){
+    const key = storageKey(email);
+    const item = localStorage.getItem(key);
+    if(!item){ alert('No account. Sign up first.'); return; }
+    const user = JSON.parse(item);
+    if(user.password!==pass){ alert('Wrong password'); return; }
+
+    currentUser = email;
+    userData = user;
+
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('userBar').style.display='flex';
+    document.getElementById('hiName').textContent = `Hi, ${email.split('@')[0]}`;
+
+    pythonIndex = userData.pythonIndex;
+    javaIndex = userData.javaIndex;
+    sharedStreak = userData.sharedStreak;
+    lastStreakDay = userData.lastStreakDay;
+    pythonToday = userData.pythonToday || 0;
+    javaToday = userData.javaToday || 0;
+
+    const today = new Date().toDateString();
+    if(lastStreakDay !== today){
+      pythonToday = 0;
+      javaToday = 0;
+    }
+
+    loadInitial();
+  }
+
+  function logout(){
+    saveUserData();
+    currentUser = null;
+    userData = null;
+    document.getElementById('loginScreen').style.display='flex';
+    document.getElementById('userBar').style.display='none';
+    document.getElementById('emailInput').value='';
+    document.getElementById('passwordInput').value='';
+  }
+
+  function saveUserData(){
+    if(currentUser && userData){
+      userData.pythonIndex = pythonIndex;
+      userData.javaIndex = javaIndex;
+      userData.sharedStreak = sharedStreak;
+      userData.lastStreakDay = lastStreakDay;
+      userData.pythonToday = pythonToday;
+      userData.javaToday = javaToday;
+      localStorage.setItem(storageKey(currentUser), JSON.stringify(userData));
+    }
+  }
+
+  // --- TOPICS & MOTIVATION ---
+
+    // PYTHON TOPICS (100 topics)
+
+    const pythonTopics = [
+"Topic 1: Introduction to Python\n\nprint('Hello, Python!')",
+"Topic 2: Variables\n\nx = 5\ny = 'Hi'\nprint(x, y)",
+"Topic 3: Lists\n\nfruits = ['apple','banana']\nprint(fruits)",
+"Topic 4: If-Else\n\nx = 1\nif x > 0:\n    print('Positive')\nelse:\n    print('Non-positive')",
+"Topic 5: Functions\n\ndef greet():\n    print('Hi!')\ngreet()",
+"Topic 6: Numbers\n\na = 10\nb = 3\nprint(a+b, a-b, a*b, a/b, a%b, a**b)",
+"Topic 7: List Indexing\n\nfruits = ['apple','banana']\nprint(fruits[0])",
+"Topic 8: List Methods\n\nnums = [1,2,3]\nnums.append(4)\nnums.remove(2)\nprint(nums)",
+"Topic 9: Tuples\n\ncoords = (10, 20)\nprint(coords[0])",
+"Topic 10: Sets\n\ncolors = {'red','green','blue'}\ncolors.add('yellow')\nprint(colors)",
+"Topic 11: Dictionaries\n\nperson = {'name':'John','age':25}\nprint(person['name'])",
+"Topic 12: Boolean Logic\n\nx = True\ny = False\nprint(x and y, x or y, not x)",
+"Topic 13: Elif\n\nx = 0\nif x>0:\n    print('Positive')\nelif x==0:\n    print('Zero')\nelse:\n    print('Negative')",
+"Topic 14: For Loops\n\nfor i in range(5):\n    print(i)",
+"Topic 15: While Loops\n\ncount = 0\nwhile count<5:\n    print(count)\n    count += 1",
+"Topic 16: Break & Continue\n\nfor i in range(5):\n    if i == 3:\n        break\n    print(i)",
+"Topic 17: Function Arguments\n\ndef add(a, b):\n    return a + b\nprint(add(5, 3))",
+"Topic 18: Default Arguments\n\ndef greet(name='User'):\n    print(f'Hello {name}')\ngreet()",
+"Topic 19: Return Values\n\ndef square(x):\n    return x**2\nprint(square(4))",
+"Topic 20: Lambda Functions\n\nsquare = lambda x: x**2\nprint(square(5))",
+"Topic 21: Map & Filter\n\nnums=[1,2,3,4]\nsq=list(map(lambda x:x**2,nums))\neven=list(filter(lambda x:x%2==0,nums))\nprint(sq, even)",
+"Topic 22: List Comprehensions\n\nsquares=[x**2 for x in range(5)]\nprint(squares)",
+"Topic 23: User Input\n\nname=input('Enter name: ')\nprint(f'Hello {name}')",
+"Topic 24: Comments\n\n# This is a comment\nprint('Python')",
+"Topic 25: Multiple Assignments\n\na,b = 5,10\nprint(a,b)",
+"Topic 26: Swapping Variables\n\na,b = 5,10\na,b = b,a\nprint(a,b)",
+"Topic 27: Type Conversion\n\nx='5'\ny=int(x)\nprint(y*2)",
+"Topic 28: Math Module\n\nimport math\nprint(math.sqrt(16), math.pi)",
+"Topic 29: Files - Writing\n\nwith open('file.txt','w') as f:\n    f.write('Hello')",
+"Topic 30: Files - Reading\n\nwith open('file.txt','r') as f:\n    print(f.read())",
+"Topic 31: Exception Handling\n\ntry:\n    x = 5/0\nexcept ZeroDivisionError:\n    print('Cannot divide by zero')",
+"Topic 32: Classes & Objects\n\nclass Person:\n    def __init__(self, name):\n        self.name = name\np = Person('Bob')\nprint(p.name)",
+"Topic 33: Inheritance\n\nclass Animal:\n    def speak(self):\n        print('Sound')\nclass Dog(Animal):\n    pass\nDog().speak()",
+"Topic 34: Encapsulation\n\nclass Person:\n    def __init__(self, name):\n        self._name = name\np = Person('Alice')\nprint(p._name)",
+"Topic 35: Polymorphism\n\nclass Cat:\n    def speak(self):\n        print('Meow')\nclass Dog:\n    def speak(self):\n        print('Woof')\nfor pet in [Cat(), Dog()]:\n    pet.speak()",
+"Topic 36: Modules\n\nimport math\nprint(math.factorial(5))",
+"Topic 37: Random Module\n\nimport random\nprint(random.randint(1,10))",
+"Topic 38: Datetime Module\n\nimport datetime\nprint(datetime.datetime.now())",
+"Topic 39: Enumerate\n\nfruits=['apple','banana']\nfor i, f in enumerate(fruits):\n    print(i, f)",
+"Topic 40: Zip\n\nnames=['a','b']\nages=[1,2]\nfor n, a in zip(names, ages):\n    print(n, a)",
+"Topic 41: Set Operations\n\ns1={1,2}\ns2={2,3}\nprint(s1 & s2, s1 | s2, s1 - s2)",
+"Topic 42: Dictionary Methods\n\nperson={'name':'John','age':25}\nprint(person.keys(), person.values())",
+"Topic 43: Nested Loops\n\nfor i in range(3):\n    for j in range(2):\n        print(i, j)",
+"Topic 44: Nested Lists\n\nmatrix=[[1,2],[3,4]]\nprint(matrix[1][0])",
+"Topic 45: Nested Dictionaries\n\ndata={'a':{'x':1}}\nprint(data['a']['x'])",
+"Topic 46: Recursion\n\ndef factorial(n):\n    if n==0:\n        return 1\n    return n * factorial(n-1)\nprint(factorial(5))",
+"Topic 47: Map vs List Comprehension\n\nnums=[1,2,3]\nsq1=list(map(lambda x:x**2,nums))\nsq2=[x**2 for x in nums]\nprint(sq1, sq2)",
+"Topic 48: Filter vs List Comprehension\n\nnums=[1,2,3,4]\neven1=list(filter(lambda x:x%2==0,nums))\neven2=[x for x in nums if x%2==0]\nprint(even1, even2)",
+"Topic 49: all() & any()\n\nnums=[0,1,2]\nprint(all(nums), any(nums))",
+"Topic 50: Lambdas in Functions\n\ndef apply(func, x):\n    return func(x)\nprint(apply(lambda x: x*2, 5))",
+"Topic 51: Generators Basics\n\ndef gen():\n    for i in range(3):\n        yield i\nfor val in gen():\n    print(val)",
+"Topic 52: Iterators\n\nnums=[1,2]\nit = iter(nums)\nprint(next(it))\nprint(next(it))",
+"Topic 53: Dict Comprehension\n\nsquared={x: x**2 for x in range(3)}\nprint(squared)",
+"Topic 54: Set Comprehension\n\nsquares={x**2 for x in range(3)}\nprint(squares)",
+"Topic 55: Debugging with Print\n\nx=5\nprint('Debug:', x)",
+"Topic 56: Docstrings\n\ndef add(a,b):\n    '''Adds two numbers'''\n    return a+b\nprint(add.__doc__)",
+"Topic 57: Global vs Local\n\na = 10\ndef func():\n    global a\n    a += 5\nfunc()\nprint(a)",
+"Topic 58: nonlocal Keyword\n\ndef outer():\n    x = 5\n    def inner():\n        nonlocal x\n        x += 1\n    inner()\n    print(x)\nouter()",
+"Topic 59: Decorators Basics\n\ndef deco(func):\n    def wrapper():\n        print('Before')\n        func()\n    return wrapper",
+"Topic 60: Using Decorators\n\n@deco\ndef say():\n    print('Hello')\nsay()",
+"Topic 61: Multiple Decorators\n\n# chaining multiple decorators example",
+"Topic 62: Advanced Generators\n\ndef countdown(n):\n    while n>0:\n        yield n\n        n -= 1\nfor x in countdown(5): print(x)",
+"Topic 63: Context Managers\n\nwith open('file.txt') as f:\n    data = f.read()",
+"Topic 64: __str__ & __repr__\n\nclass Person:\n    def __str__(self): return 'Person'\nprint(Person())",
+"Topic 65: @property Decorator\n\nclass Person:\n    def __init__(self, name):\n        self._name = name\n    @property\n    def name(self):\n        return self._name",
+"Topic 66: __slots__\n\nclass Person:\n    __slots__ = ['name']\n    def __init__(self, name):\n        self.name = name",
+"Topic 67: Metaclasses (Intro)\n\n# Example metaclass placeholder",
+"Topic 68: itertools Module\n\nimport itertools\nprint(list(itertools.permutations([1,2,3])))",
+"Topic 69: collections Module\n\nfrom collections import Counter\nprint(Counter([1,1,2]))",
+"Topic 70: Regular Expressions\n\nimport re\nprint(re.findall('\\\\d+', 'abc123'))",
+"Topic 71: JSON Module\n\nimport json\ndata={'a':1}\nprint(json.dumps(data))",
+"Topic 72: Pickle Module\n\nimport pickle\nobj={'x':1}\nprint(pickle.dumps(obj))",
+"Topic 73: requests Module (example)\n\n# requires requests package\n# import requests\n# response = requests.get('https://example.com')\n# print(response.status_code)",
+"Topic 74: Multithreading Basics\n\nfrom threading import Thread\ndef func():\n    print('Hi')\nThread(target=func).start()",
+"Topic 75: Multiprocessing Basics\n\nfrom multiprocessing import Process\ndef func():\n    print('Hi')\nProcess(target=func).start()",
+"Topic 76: asyncio Basics\n\nimport asyncio\nasync def main():\n    print('Hello')\n# asyncio.run(main())",
+"Topic 77: Type Hinting\n\ndef add(a: int, b: int) -> int:\n    return a + b",
+"Topic 78: Enum Module\n\nfrom enum import Enum\nclass Color(Enum):\n    RED = 1\nprint(Color.RED)",
+"Topic 79: Advanced OOP Concepts\n\n# Abstract base classes example",
+"Topic 80: Property Setters\n\nclass Person:\n    @property\n    def name(self): return self._name\n    @name.setter\n    def name(self, val): self._name = val",
+"Topic 81: Slots vs __dict__\n# memory optimization example",
+"Topic 82: Custom Iterators\n\nclass Counter:\n    def __init__(self, limit): self.limit = limit\n    def __iter__(self): self.i = 0; return self\n    def __next__(self):\n        if self.i < self.limit:\n            self.i += 1\n            return self.i\n        else: raise StopIteration\nfor c in Counter(3): print(c)",
+"Topic 83: contextlib Module\n\nfrom contextlib import contextmanager\n@contextmanager\ndef my_context():\n    print('Enter')\n    yield\n    print('Exit')\nwith my_context(): print('Inside')",
+"Topic 84: Fibonacci Generator\n\ndef fibonacci(n):\n    a,b = 0,1\n    for _ in range(n):\n        yield a\n        a,b = b,a+b\nfor num in fibonacci(5): print(num)",
+"Topic 85: memoryview\n\n# Efficient byte manipulation example",
+"Topic 86: weakref Module\n\nimport weakref\nclass A: pass\na = A()\nw = weakref.ref(a)\nprint(w())",
+"Topic 87: dataclasses\n\nfrom dataclasses import dataclass\n@dataclass\nclass Person:\n    name: str\np = Person('Alice')\nprint(p)",
+"Topic 88: namedtuple\n\nfrom collections import namedtuple\nPoint = namedtuple('Point','x y')\np = Point(1,2)\nprint(p.x)",
+"Topic 89: ChainMap\n\nfrom collections import ChainMap\n# merging dicts example",
+"Topic 90: Advanced Comprehensions\n\n# nested dict & set comprehensions example",
+"Topic 91: Contextlib Redirects\n\n# redirect stdout example",
+"Topic 92: Profiling\n\nimport cProfile\ncProfile.run('sum(range(1000))')",
+"Topic 93: Tracing & Debugging\n\nimport trace\n# tracing code execution",
+"Topic 94: Virtual Environments\n\n# using venv to manage packages",
+"Topic 95: Packaging Python Code\n\n# setup.py example for distribution",
+"Topic 96: Testing with unittest\n\nimport unittest\n# basic test example",
+"Topic 97: Logging Module\n\nimport logging\nlogging.basicConfig(level=logging.INFO)\nlogging.info('Info')",
+"Topic 98: Subprocess Module\n\nimport subprocess\n# subprocess.run(['ls'])",
+"Topic 99: Web Basics (Flask)\n\n# from flask import Flask\n# app = Flask(__name__)\n# @app.route('/')\n# def home(): return 'Hello'",
+"Topic 100: Best Practices & Next Steps\n\n# Keep practicing, read docs, build projects"
+    ];
+	// ------------------------------
+    // JAVA TOPICS (100 topics)
+    // ------------------------------
+    const javaTopics = [
+"Topic 1: Introduction to Java\n\nSystem.out.println('Hello, Java!');",
+"Topic 2: Variables\n\nint age = 20;\nString name = 'John';",
+"Topic 3: Arrays\n\nint[] nums = {1,2,3};",
+"Topic 4: If-Else\n\nint x = 1;\nif(x > 0){ System.out.println('Positive'); } else { System.out.println('Non-positive'); }",
+"Topic 5: Methods\n\nstatic void greet(){ System.out.println('Hi!'); }",
+"Topic 6: Data Types\n\nint x = 5;\ndouble y = 5.5;\nboolean flag = true;\nchar c = 'A';",
+"Topic 7: Arithmetic Operators\n\nint a = 10, b = 3;\nSystem.out.println(a+b);\nSystem.out.println(a-b);\nSystem.out.println(a*b);\nSystem.out.println(a/b);\nSystem.out.println(a%b);",
+"Topic 8: If Statement\n\nint x2 = 10;\nif(x2>0){ System.out.println('Positive'); }",
+"Topic 9: If-Else Statement\n\nint x3 = -5;\nif(x3>0){ System.out.println('Positive'); } else { System.out.println('Non-positive'); }",
+"Topic 10: If-Else-If Ladder\n\nint x4 = 0;\nif(x4>0){ System.out.println('Positive'); } else if(x4==0){ System.out.println('Zero'); } else { System.out.println('Negative'); }",
+"Topic 11: Switch Case\n\nint day = 2;\nswitch(day){\n  case 1: System.out.println('Monday'); break;\n  case 2: System.out.println('Tuesday'); break;\n  default: System.out.println('Other Day');\n}",
+"Topic 12: For Loop\n\nfor(int i=0;i<5;i++){ System.out.println(i); }",
+"Topic 13: While Loop\n\nint i=0;\nwhile(i<5){ System.out.println(i); i++; }",
+"Topic 14: Do-While Loop\n\nint j=0;\ndo{ System.out.println(j); j++; }while(j<5);",
+"Topic 15: Break Statement\n\nfor(int i=0;i<5;i++){ if(i==3) break; System.out.println(i); }",
+"Topic 16: Continue Statement\n\nfor(int i=0;i<5;i++){ if(i==2) continue; System.out.println(i); }",
+"Topic 17: Arrays Loop\n\nint[] arr = {1,2,3};\nfor(int i=0;i<arr.length;i++){ System.out.println(arr[i]); }",
+"Topic 18: Enhanced For Loop\n\nint[] nums2 = {1,2,3};\nfor(int num: nums2){ System.out.println(num); }",
+"Topic 19: Multidimensional Arrays\n\nint[][] matrix = {{1,2},{3,4}};\nSystem.out.println(matrix[1][0]);",
+"Topic 20: Strings\n\nString name2 = 'Alice';\nSystem.out.println('Hello ' + name2);",
+"Topic 21: String Methods\n\nString text = 'Hello';\nSystem.out.println(text.length());\nSystem.out.println(text.toUpperCase());",
+"Topic 22: Methods with Parameters\n\nstatic int add(int a,int b){ return a+b; }\nSystem.out.println(add(5,3));",
+"Topic 23: Return Values\n\nstatic int square(int x){ return x*x; }\nSystem.out.println(square(4));",
+"Topic 24: Method Overloading\n\nstatic int sum(int a,int b){ return a+b; }\nstatic double sum(double a,double b){ return a+b; }",
+"Topic 25: Constructors\n\nclass Person{ String name; Person(String n){ name = n; } }\nPerson p = new Person('John');\nSystem.out.println(p.name);",
+"Topic 26: this Keyword\n\nclass Person2{ String name; Person2(String name){ this.name = name; } }",
+"Topic 27: static Keyword\n\nclass Test{ static int x = 5; }\nSystem.out.println(Test.x);",
+"Topic 28: final Keyword\n\nfinal int x5 = 10;\n// x5 = 20; // Error",
+"Topic 29: Type Casting\n\nint x6 = 10;\ndouble y2 = x6;\nSystem.out.println(y2);",
+"Topic 30: Math Class\n\nSystem.out.println(Math.sqrt(16));\nSystem.out.println(Math.pow(2,3));",
+"Topic 31: Scanner (User Input)\n\nimport java.util.Scanner;\nScanner sc = new Scanner(System.in);\nString name3 = sc.nextLine();\nSystem.out.println(name3);",
+"Topic 32: Arrays Sorting\n\nint[] nums3 = {3,1,2};\njava.util.Arrays.sort(nums3);\nSystem.out.println(java.util.Arrays.toString(nums3));",
+"Topic 33: Arrays Copy\n\nint[] a = {1,2};\nint[] b = java.util.Arrays.copyOf(a,a.length);\nSystem.out.println(java.util.Arrays.toString(b));",
+"Topic 34: 2D Arrays\n\nint[][] m = {{1,2},{3,4}};\nSystem.out.println(m[1][1]);",
+"Topic 35: StringBuilder\n\nStringBuilder sb = new StringBuilder('Hello');\nsb.append(' World');\nSystem.out.println(sb);",
+"Topic 36: StringBuffer\n\nStringBuffer sb2 = new StringBuffer('Hi');\nsb2.append(' Java');\nSystem.out.println(sb2);",
+"Topic 37: String Comparison\n\nString a1 = 'abc';\nString b1 = 'abc';\nSystem.out.println(a1.equals(b1));",
+"Topic 38: Wrapper Classes\n\nInteger ii = 10;\nDouble dd = 5.5;\nSystem.out.println(ii + dd);",
+"Topic 39: Integer.parseInt\n\nString s = '123';\nint xi = Integer.parseInt(s);\nSystem.out.println(xi + 1);",
+"Topic 40: Math.random()\n\nSystem.out.println(Math.random());",
+"Topic 41: Date Class\n\nimport java.util.Date;\nDate d = new Date();\nSystem.out.println(d);",
+"Topic 42: Calendar Class\n\nimport java.util.Calendar;\nCalendar c = Calendar.getInstance();\nSystem.out.println(c.getTime());",
+"Topic 43: For-Each with Collections\n\njava.util.ArrayList<Integer> list = new java.util.ArrayList<>();\nlist.add(1); list.add(2);\nfor(int n: list) System.out.println(n);",
+"Topic 44: ArrayList Methods\n\njava.util.ArrayList<String> list2 = new java.util.ArrayList<>();\nlist2.add('A');\nlist2.remove('A');\nSystem.out.println(list2);",
+"Topic 45: LinkedList Basics\n\njava.util.LinkedList<Integer> ll = new java.util.LinkedList<>();\nll.add(1);\nSystem.out.println(ll);",
+"Topic 46: Stack Basics\n\njava.util.Stack<Integer> st = new java.util.Stack<>();\nst.push(1);\nst.pop();",
+"Topic 47: Queue Basics\n\njava.util.Queue<Integer> q = new java.util.LinkedList<>();\nq.add(1);\nSystem.out.println(q.poll());",
+"Topic 48: HashMap Basics\n\njava.util.HashMap<String,Integer> map = new java.util.HashMap<>();\nmap.put('a',1);\nSystem.out.println(map.get('a'));",
+"Topic 49: HashSet Basics\n\njava.util.HashSet<Integer> set = new java.util.HashSet<>();\nset.add(1);\nSystem.out.println(set.contains(1));",
+"Topic 50: TreeSet Basics\n\njava.util.TreeSet<Integer> ts = new java.util.TreeSet<>();\nts.add(3); ts.add(1);\nSystem.out.println(ts);",
+"Topic 51: LinkedHashMap Basics\n\njava.util.LinkedHashMap<String,Integer> lh = new java.util.LinkedHashMap<>();\nlh.put('a',1); lh.put('b',2);\nSystem.out.println(lh);",
+"Topic 52: Enum Basics\n\nenum Day{ MON,TUE }\nSystem.out.println(Day.MON);",
+"Topic 53: Static Methods\n\nclass Test2{ static void greet(){ System.out.println('Hi'); } }\nTest2.greet();",
+"Topic 54: Access Modifiers\n\npublic class Test3{} \nprivate int x; \nprotected void show(){}",
+"Topic 55: Packages\n\npackage mypackage;\nclass Test4{}",
+"Topic 56: Import Statement\n\nimport java.util.*;\njava.util.ArrayList<Integer> list3 = new java.util.ArrayList<>();",
+"Topic 57: Exception Handling\n\ntry{ int k = 5/0;} catch(ArithmeticException e){System.out.println('Error');}",
+"Topic 58: Multiple Catch\n\ntry{ } catch(ArithmeticException e){ } catch(Exception e){ }",
+"Topic 59: Finally Block\n\ntry{ } catch(Exception e){ } finally{ System.out.println('Done'); }",
+"Topic 60: throw Keyword\n\nthrow new ArithmeticException('Error');",
+"Topic 61: Custom Exception\n\nclass MyEx extends Exception{}",
+"Topic 62: Threads Basics\n\nclass MyThread extends Thread{ public void run(){ System.out.println('Thread running'); } }",
+"Topic 63: Runnable Interface\n\nclass MyRun implements Runnable{ public void run(){ System.out.println('Runnable'); } }",
+"Topic 64: Synchronization\n\nsynchronized void syncMethod(){}",
+"Topic 65: Lambda Expressions\n\njava.util.List<Integer> l = java.util.Arrays.asList(1,2);\nl.forEach(n -> System.out.println(n));",
+"Topic 66: Stream API Basics\n\nl.stream().filter(n->n>1).forEach(System.out::println);",
+"Topic 67: Optional Class\n\njava.util.Optional<String> opt = java.util.Optional.of('Hello');\nSystem.out.println(opt.isPresent());",
+"Topic 68: File I/O\n\nimport java.io.*;\nBufferedReader br = new BufferedReader(new FileReader('file.txt'));",
+"Topic 69: Serialization\n\nimport java.io.*;\nObjectOutputStream out = new ObjectOutputStream(new FileOutputStream('obj.dat'));",
+"Topic 70: Deserialization\n\nObjectInputStream in = new ObjectInputStream(new FileInputStream('obj.dat'));",
+"Topic 71: Generics Basics\n\nclass Box<T>{ T val; }",
+"Topic 72: Bounded Generics\n\nclass Box<T extends Number>{ T val; }",
+"Topic 73: Wildcards\n\njava.util.List<?> list4 = new java.util.ArrayList<Integer>();",
+"Topic 74: Reflection Basics\n\nClass c = String.class;\nSystem.out.println(c.getName());",
+"Topic 75: Annotations\n\n@interface MyAnno{}",
+"Topic 76: JDBC Basics\n\nimport java.sql.*;\nConnection con = DriverManager.getConnection(...);",
+"Topic 77: Comparable Interface\n\nclass Person3 implements Comparable<Person3>{ public int compareTo(Person3 p){ return 0; } }",
+"Topic 78: Comparator Interface\n\njava.util.Comparator<Person3> comp = (p1,p2)->p1.age - p2.age;",
+"Topic 79: Nested Classes\n\nclass Outer{ class Inner{} }",
+"Topic 80: Static Nested Class\n\nclass Outer{ static class Inner{} }",
+"Topic 81: Inner Class Access\n\nOuter.Inner i = new Outer.Inner();",
+"Topic 82: Anonymous Class\n\nRunnable r = new Runnable(){ public void run(){} };",
+"Topic 83: Java 8 Date/Time API\n\njava.time.LocalDate today = java.time.LocalDate.now();",
+"Topic 84: Optional Usage\n\njava.util.Optional<String> o = java.util.Optional.ofNullable(null);",
+"Topic 85: Stream map\n\nl.stream().map(n->n*2).forEach(System.out::println);",
+"Topic 86: Stream reduce\n\nint sum = l.stream().reduce(0, (a,b) -> a + b);",
+"Topic 87: Parallel Streams\n\nl.parallelStream().forEach(System.out::println);",
+"Topic 88: CompletableFuture\n\njava.util.concurrent.CompletableFuture.runAsync(() -> System.out.println('Async'));",
+"Topic 89: Executors\n\njava.util.concurrent.ExecutorService ex = java.util.concurrent.Executors.newFixedThreadPool(2);",
+"Topic 90: Optional.orElse\n\nSystem.out.println(o.orElse('Default'));",
+"Topic 91: NIO Basics\n\njava.nio.file.Path p = java.nio.file.Paths.get('file.txt');\njava.nio.file.Files.exists(p);",
+"Topic 92: BufferedReader & Writer\n\nBufferedReader br2 = new BufferedReader(new java.io.FileReader('file.txt'));",
+"Topic 93: Serialization Example\n\nObjectOutputStream out2 = new ObjectOutputStream(new FileOutputStream('obj.dat'));",
+"Topic 94: Deserialization Example\n\nObjectInputStream in2 = new ObjectInputStream(new FileInputStream('obj.dat'));",
+"Topic 95: JavaFX Basics\n\n// Simple JavaFX application placeholder",
+"Topic 96: Swing Basics\n\n// Simple JFrame example placeholder",
+"Topic 97: Networking Basics\n\njava.net.Socket s = new java.net.Socket('localhost',8080);",
+"Topic 98: Advanced Multithreading\n\nsynchronized(block) { /* synchronized block example */ }",
+"Topic 99: Design Patterns\n\n// Singleton, Factory examples (placeholders)",
+"Topic 100: Reflection Advanced\n\nClass cls = Class.forName('java.lang.String');"
+    ];
+
+  const motivationalQuotes = [
+    "🌟 Awesome! Keep going!",
+    "💪 You're doing great!",
+    "🔥 Another day of learning!",
+    "🚀 Stay consistent!",
+    "👏 Excellent! One day at a time!"
+  ];
+
+  let pythonIndex = 0;
+  let javaIndex = 0;
+  let sharedStreak = 0;
+  let lastStreakDay = "";
+  let pythonToday = 0;
+  let javaToday = 0;
+
+  const pythonTopicEl = document.getElementById("pythonTopic");
+  const javaTopicEl = document.getElementById("javaTopic");
+  const sharedStreakEl = document.getElementById("sharedStreak");
+  const motivationEl = document.getElementById("motivation");
+  const streakCard = document.getElementById("streakCard");
+  const confettiCanvas = document.getElementById("confetti");
+
+  function nextPythonTopic(){
+    pythonIndex = (pythonIndex + 1) % pythonTopics.length;
+    pythonToday++;
+    checkDailyStreak();
+    updateTopics();
+    saveUserData();
+  }
+
+  function nextJavaTopic(){
+    javaIndex = (javaIndex + 1) % javaTopics.length;
+    javaToday++;
+    checkDailyStreak();
+    updateTopics();
+    saveUserData();
+  }
+
+  function updateTopics(){
+    pythonTopicEl.innerHTML = `<strong>${pythonTopics[pythonIndex].split('\n\n')[0]}</strong><br><br><pre>${pythonTopics[pythonIndex].split('\n\n')[1]}</pre>`;
+    javaTopicEl.innerHTML = `<strong>${javaTopics[javaIndex].split('\n\n')[0]}</strong><br><br><pre>${javaTopics[javaIndex].split('\n\n')[1]}</pre>`;
+  }
+
+  let streakEarnedToday = false;
+
+  function checkDailyStreak(){
+    const todayDate = new Date().toDateString();
+    if(lastStreakDay !== todayDate){
+      pythonToday = 0;
+      javaToday = 0;
+      streakEarnedToday = false;
+      lastStreakDay = todayDate;
+    }
+
+    if(pythonToday >= 5 && javaToday >= 5 && !streakEarnedToday){
+      sharedStreak++;
+      streakEarnedToday = true;
+      animateStreak();
+      showStreakCard();
+      showConfetti();
+      showMotivation();
+      saveUserData();
+    }
+  }
+
+  function animateStreak(){
+    let displayed = 0;
+    const target = sharedStreak;
+    const interval = setInterval(()=>{
+      if(displayed >= target){ clearInterval(interval); }
+      else { displayed++; sharedStreakEl.textContent = `🔥 ${displayed}-day streak`; }
+    },50);
+  }
+
+  function showMotivation(){
+    const msg = motivationalQuotes[Math.floor(Math.random()*motivationalQuotes.length)];
+    motivationEl.textContent = msg;
+    motivationEl.classList.add("show");
+    setTimeout(()=> motivationEl.classList.remove("show"),2500);
+  }
+
+  function showStreakCard(){
+    streakCard.classList.add("show");
+    setTimeout(()=> streakCard.classList.remove("show"),3000);
+  }
+
+  function loadInitial(){
+    updateTopics();
+    sharedStreakEl.textContent = `🔥 ${sharedStreak}-day streak`;
+  }
+
+  function resetProgress(){
+    if(confirm("⚠️ Are you sure? This will reset your streaks and topics to start over.")){
+      pythonIndex = 0;
+      javaIndex = 0;
+      sharedStreak = 0;
+      lastStreakDay = "";
+      pythonToday = 0;
+      javaToday = 0;
+      streakEarnedToday = false;
+      saveUserData();
+      loadInitial();
+    }
+  }
+
+  // --- CONFETTI ---
+  function showConfetti(){
+    const confetti = confettiCanvas.getContext('2d');
+    const particles = [];
+    for(let i=0;i<150;i++){
+      particles.push({
+        x: Math.random()*window.innerWidth,
+        y: Math.random()*window.innerHeight - window.innerHeight,
+        r: Math.random()*6+4,
+        dx: Math.random()*6-3,
+        dy: Math.random()*6+2,
+        color:`hsl(${Math.random()*360},100%,50%)`
+      });
+    }
+    let frame = 0;
+    function animate(){
+      confetti.clearRect(0,0,window.innerWidth,window.innerHeight);
+      particles.forEach(p=>{
+        p.x += p.dx;
+        p.y += p.dy;
+        p.dy += 0.05;
+        if(p.y>window.innerHeight) p.y=-10;
+        confetti.fillStyle=p.color;
+        confetti.beginPath();
+        confetti.arc(p.x,p.y,p.r,0,Math.PI*2);
+        confetti.fill();
+      });
+      frame++;
+      if(frame<120) requestAnimationFrame(animate);
+      else confetti.clearRect(0,0,window.innerWidth,window.innerHeight);
+    }
+    animate();
+  }
+
+</script>
+</body>
+</html>
