@@ -98,9 +98,6 @@ SkillSpark/
 
 ---
 
-## 📸 Screenshots
-
-Add project screenshots here after uploading them to your repository.
 
 ---
 
